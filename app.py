@@ -355,17 +355,17 @@ def conversation_without_data(request_body):
 #     logging.error(f'Conversation latency: {time_after - time_before}')
 #     return response
 
-def conversation_internal(request_body):
-    try:
-        use_data = should_use_data()
-        if use_data:
-            return conversation_with_data(request_body)
-        else:
-            return conversation_without_data(request_body)
-    except Exception as e:
-        logging.exception("Exception in /conversation")
-        logging.info(f"exception time: {datetime.now()}")
-        return jsonify({"error": str(e)}), 500
+# def conversation_internal(request_body):
+#     try:
+#         use_data = should_use_data()
+#         if use_data:
+#             return conversation_with_data(request_body)
+#         else:
+#             return conversation_without_data(request_body)
+#     except Exception as e:
+#         logging.exception("Exception in /conversation")
+#         logging.info(f"exception time: {datetime.now()}")
+#         return jsonify({"error": str(e)}), 500
 
 ## Conversation History API ## 
 @app.route("/history/generate", methods=["POST"])
