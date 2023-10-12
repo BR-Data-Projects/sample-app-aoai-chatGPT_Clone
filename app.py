@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 
 from backend.auth.auth_utils import get_authenticated_user_details
 from backend.history.cosmosdbservice import CosmosConversationClient
+import logging
+import time
 
 load_dotenv()
 
@@ -27,6 +29,8 @@ def favicon():
 def assets(path):
     return send_from_directory("static/assets", path)
 
+
+logger = logging.getLogger("app")
 
 # ACS Integration Settings
 AZURE_SEARCH_SERVICE = os.environ.get("AZURE_SEARCH_SERVICE")
@@ -341,7 +345,11 @@ def conversation_without_data(request_body):
 @app.route("/conversation", methods=["GET", "POST"])
 def conversation():
     request_body = request.json
-    return conversation_internal(request_body)
+    time_before = time()
+    response = conversation_internal(request_body)
+    time_after = time()
+    logger.debug(f'time consumed: {time_after - time_before}')
+    return response
 
 def conversation_internal(request_body):
     try:
