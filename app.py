@@ -343,29 +343,28 @@ def conversation_without_data(request_body):
         return Response(stream_without_data(response, history_metadata), mimetype='text/event-stream')
 
 
-# @app.route("/conversation", methods=["GET", "POST"])
-# def conversation():
-#     request_body = request.json
-#     time_before = datetime.now()
-#     logging.error(f'conversation start time: {time_before}')
-#     response = conversation_internal(request_body)
-#     time_after = datetime.now()
-#     logging.exception(" Testing exeception prashanth")
-#     raise "testing exception"
-#     logging.error(f'Conversation latency: {time_after - time_before}')
-#     return response
+@app.route("/conversation", methods=["GET", "POST"])
+def conversation():
+    request_body = request.json
+    time_before = datetime.now()
+    logging.error(f'conversation start time: {time_before}')
+    response = conversation_internal(request_body)
+    time_after = datetime.now()
+    logging.exception(" Testing exception prashanth")
+    logging.error(f'Conversation latency: {time_after - time_before}')
+    return response
 
-# def conversation_internal(request_body):
-#     try:
-#         use_data = should_use_data()
-#         if use_data:
-#             return conversation_with_data(request_body)
-#         else:
-#             return conversation_without_data(request_body)
-#     except Exception as e:
-#         logging.exception("Exception in /conversation")
-#         logging.info(f"exception time: {datetime.now()}")
-#         return jsonify({"error": str(e)}), 500
+def conversation_internal(request_body):
+    try:
+        use_data = should_use_data()
+        if use_data:
+            return conversation_with_data(request_body)
+        else:
+            return conversation_without_data(request_body)
+    except Exception as e:
+        logging.exception("Exception in /conversation")
+        logging.info(f"exception time: {datetime.now()}")
+        return jsonify({"error": str(e)}), 500
 
 ## Conversation History API ## 
 @app.route("/history/generate", methods=["POST"])
