@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 import os
 import logging
@@ -9,8 +10,8 @@ from dotenv import load_dotenv
 
 from backend.auth.auth_utils import get_authenticated_user_details
 from backend.history.cosmosdbservice import CosmosConversationClient
-import logging
-import time
+
+from time import time
 
 load_dotenv()
 
@@ -345,10 +346,11 @@ def conversation_without_data(request_body):
 @app.route("/conversation", methods=["GET", "POST"])
 def conversation():
     request_body = request.json
-    time_before = time()
+    time_before = datetime.now()
+    logger.error(f'conversation start time: {time_before}')
     response = conversation_internal(request_body)
-    time_after = time()
-    logger.debug(f'time consumed: {time_after - time_before}')
+    time_after = datetime.now()
+    logger.error(f'Conversation latency: {time_after - time_before}')
     return response
 
 def conversation_internal(request_body):
@@ -360,6 +362,7 @@ def conversation_internal(request_body):
             return conversation_without_data(request_body)
     except Exception as e:
         logging.exception("Exception in /conversation")
+        logging.info(f"exception time: {datetime.now()}")
         return jsonify({"error": str(e)}), 500
 
 ## Conversation History API ## 
