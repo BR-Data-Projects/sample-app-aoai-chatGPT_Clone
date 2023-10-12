@@ -347,10 +347,10 @@ def conversation_without_data(request_body):
 def conversation():
     request_body = request.json
     time_before = datetime.now()
-    logger.error(f'conversation start time: {time_before}')
+    logging.error(f'conversation start time: {time_before}')
     response = conversation_internal(request_body)
     time_after = datetime.now()
-    logger.error(f'Conversation latency: {time_after - time_before}')
+    logging.error(f'Conversation latency: {time_after - time_before}')
     return response
 
 def conversation_internal(request_body):
