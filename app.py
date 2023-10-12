@@ -351,6 +351,7 @@ def conversation():
     response = conversation_internal(request_body)
     time_after = datetime.now()
     logging.exception(" Testing exeception prashanth")
+    raise "testing exception"
     logging.error(f'Conversation latency: {time_after - time_before}')
     return response
 
